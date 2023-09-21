@@ -13,33 +13,14 @@
             ingredientItem.name
           }}</span>
         </AppDrag>
-
-        <div class="counter counter--orange ingredients__counter">
-          <button
-            type="button"
-            class="counter__button counter__button--minus"
-            :disabled="getValue(ingredientItem.value) === 0"
-            @click="decrementValue(ingredientItem.value)"
-          >
-            <span class="visually-hidden">Меньше</span>
-          </button>
-          <input
-            :value="getValue(ingredientItem.value)"
-            type="number"
-            name="counter"
-            class="counter__input"
-            disabled
-            @input="inputValue(ingredientItem.value, $event.target.value)"
-          />
-          <button
-            type="button"
-            class="counter__button counter__button--plus"
-            :disabled="getValue(ingredientItem.value) === MAX_INGREDIENT_COUNT"
-            @click="incrementValue(ingredientItem.value)"
-          >
-            <span class="visually-hidden">Больше</span>
-          </button>
-        </div>
+        <AppCounter
+          :ingredient-item="ingredientItem"
+          :max-value="MAX_INGREDIENT_COUNT"
+          :value="getValue(ingredientItem.value)"
+          @decrement="decrementValue"
+          @increment="incrementValue"
+          @input="inputValue"
+        />
       </li>
     </ul>
   </div>
@@ -47,7 +28,7 @@
 
 <script setup>
 import { toRef } from "vue";
-import { AppDrag } from "@/common/components";
+import { AppDrag, AppCounter } from "@/common/components";
 import { MAX_INGREDIENT_COUNT } from "@/common/constants";
 
 const props = defineProps({
@@ -80,7 +61,10 @@ const incrementValue = (ingredient) => {
 };
 
 const inputValue = (ingredient, count) => {
-  return setValue(ingredient, Math.min(MAX_INGREDIENT_COUNT, Number(count)));
+  return setValue(
+    ingredient,
+    count < 0 ? 0 : parseInt(Math.min(MAX_INGREDIENT_COUNT, Number(count)))
+  );
 };
 </script>
 
@@ -99,13 +83,6 @@ const inputValue = (ingredient, count) => {
   }
 }
 
-.counter__input::-webkit-outer-spin-button,
-.counter__input::-webkit-inner-spin-button {
-  /* display: none; <- Crashes Chrome on hover */
-  -webkit-appearance: none;
-  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-}
-
 .ingredients__list {
   @include clear-list;
 
@@ -121,11 +98,11 @@ const inputValue = (ingredient, count) => {
   margin-bottom: 35px;
 }
 
-.ingredients__counter {
-  width: 54px;
-  margin-top: 10px;
-  margin-left: 36px;
-}
+// .ingredients__counter {
+//   width: 54px;
+//   margin-top: 10px;
+//   margin-left: 36px;
+// }
 
 // filling //
 .filling {

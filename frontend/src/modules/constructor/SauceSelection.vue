@@ -32,7 +32,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits("update:modelValue");
+const emit = defineEmits(["update:modelValue"]);
 
 const sauceComputed = computed({
   get() {
