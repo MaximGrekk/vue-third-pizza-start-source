@@ -62,12 +62,6 @@ defineEmits(["increment", "decrement", "input"]);
   margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-.ingredients__counter {
-  width: 54px;
-  margin-top: 10px;
-  margin-left: 36px;
-}
-
 // counter //
 .counter {
   display: flex;

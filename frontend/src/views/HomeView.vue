@@ -112,9 +112,6 @@ const commonPrice = computed(() => {
 @import "../assets/scss/mixins/mixins";
 
 // contnent //
-.content {
-  padding-top: 20px;
-}
 
 .content__wrapper {
   display: flex;

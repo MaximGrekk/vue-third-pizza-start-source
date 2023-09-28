@@ -83,6 +83,12 @@ const inputValue = (ingredient, count) => {
   }
 }
 
+.ingredients__counter {
+  width: 54px;
+  margin-top: 10px;
+  margin-left: 36px;
+}
+
 .ingredients__list {
   @include clear-list;
 

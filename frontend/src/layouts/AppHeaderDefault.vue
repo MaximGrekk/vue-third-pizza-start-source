@@ -78,7 +78,7 @@
 
     color: $white;
     background-color: $green-500;
-    background-image: url("../img/cart.svg");
+    background-image: url("../assets/img/cart.svg");
     background-repeat: no-repeat;
     background-position: 20px center;
     background-size: 29px 27px;
@@ -160,7 +160,7 @@
     content: "";
     vertical-align: middle;
 
-    background: url(../img/login.svg) no-repeat center;
+    background: url(../assets/img/login.svg) no-repeat center;
     background-size: auto 50%;
   }
 }
@@ -176,7 +176,7 @@
     content: "";
     vertical-align: middle;
 
-    background: url(../img/login.svg) no-repeat center;
+    background: url(../assets/img/login.svg) no-repeat center;
     background-size: auto 50%;
   }
 }
