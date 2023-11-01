@@ -4,7 +4,7 @@
       type="button"
       class="counter__button counter__button--minus"
       :disabled="value === 0"
-      @click="$emit('decrement', ingredientItem.value)"
+      @click="$emit('input', value - 1)"
     >
       <span class="visually-hidden">Меньше</span>
     </button>
@@ -14,14 +14,17 @@
       name="counter"
       class="counter__input"
       disabled
-      @input="$emit('input', ingredientItem.value, $event.target.value)"
+      @input="
+        // @ts-ignore
+        $emit('input', ingredientItem.value, Number($event.target?.value))
+      "
     />
     <button
       type="button"
       class="counter__button counter__button--plus"
       :disabled="value === maxValue"
       :class="{ 'counter__button--orange': alternativeColor }"
-      @click="$emit('increment', ingredientItem.value)"
+      @click="$emit('input', value + 1)"
     >
       <span class="visually-hidden">Больше</span>
     </button>
@@ -48,7 +51,7 @@ defineProps({
   },
 });
 
-defineEmits(["increment", "decrement", "input"]);
+defineEmits(["input"]);
 </script>
 
 <style scoped lang="scss">

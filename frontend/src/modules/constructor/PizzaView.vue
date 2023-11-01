@@ -3,26 +3,25 @@
     <label class="input">
       <span class="visually-hidden">Название пиццы</span>
       <input
+        v-model="name"
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
       />
     </label>
 
-    <AppDrop @drop="emit('drop', $event.value)">
+    <AppDrop @drop="emit('drop', $event.id)">
       <div class="content__constructor">
-        <div :class="pizzaFoundationClass" class="pizza">
+        <div :class="`pizza--foundation--${dough}-${sauce}`" class="pizza">
           <div class="pizza__wrapper">
             <div
-              v-for="(
-                pizzaIngredientData, pizzaIngredientName
-              ) in pizzaIngredients"
-              :key="pizzaIngredientName"
+              v-for="item in ingredients"
+              :key="item.id"
               class="pizza__filling"
               :class="[
-                `pizza__filling--${pizzaIngredientName}`,
-                pizzaIngredientData.count === 2 && 'pizza__filling--second',
-                pizzaIngredientData.count >= 3 && 'pizza__filling--third',
+                `pizza__filling--${item.value}`,
+                item.quantity === TWO_INGREDIENTS && 'pizza__filling--second',
+                item.quantity === THREE_INGREDIENTS && 'pizza__filling--third',
               ]"
             />
           </div>
@@ -31,44 +30,69 @@
     </AppDrop>
 
     <div class="content__result">
-      <p>Итого: {{ price }} ₽</p>
-      <button type="button" class="button" disabled>Готовьте!</button>
+      <p>Итого: {{ pizzaStore.price }} ₽</p>
+      <button
+        type="button"
+        class="button"
+        :disabled="disableSubmit"
+        @click="addToCart"
+      >
+        Готовьте!
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
 import { AppDrop } from "@/common/components";
+import { useCartStore } from "@/stores/cart";
+import { useRouter } from "vue-router";
 import { computed } from "vue";
+import { usePizzaStore } from "@/stores/pizza";
 
-const props = defineProps({
-  price: {
-    type: Number,
-    required: true,
+const TWO_INGREDIENTS = 2;
+const THREE_INGREDIENTS = 3;
+
+const router = useRouter();
+
+const cartStore = useCartStore();
+const pizzaStore = usePizzaStore();
+
+const name = computed({
+  get() {
+    return pizzaStore.name;
   },
-  pizzaState: {
-    type: Object,
-    required: true,
+  set(value) {
+    pizzaStore.setName(value);
   },
 });
+
+const disableSubmit = computed(() => {
+  return name.value.length === 0 || pizzaStore.price === 0;
+});
+
+const addToCart = async () => {
+  cartStore.savePizza(pizzaStore.$state);
+  await router.push({ name: "cart" });
+  pizzaStore.resetPizza();
+};
+
+defineProps({
+  dough: {
+    type: String,
+    default: "",
+  },
+  sauce: {
+    type: String,
+    default: "",
+  },
+  ingredients: {
+    type: Array,
+    default: () => [],
+  },
+});
+
 const emit = defineEmits(["drop"]);
-
-const pizzaFoundationClass = computed(() => {
-  return `pizza--foundation--${props.pizzaState.dough}-${props.pizzaState.sauce}`;
-});
-
-const pizzaIngredients = computed(() => {
-  return Object.entries(props.pizzaState.ingredients)
-    .filter((ingredient) => {
-      const [, ingredientData] = ingredient;
-      if (ingredientData.count < 1) return false;
-      return true;
-    })
-    .reduce((prevResult, value) => {
-      const [ingredientName, ingredientData] = value;
-      return { ...prevResult, [ingredientName]: ingredientData };
-    }, {});
-});
 </script>
 
 <style lang="scss" scoped>

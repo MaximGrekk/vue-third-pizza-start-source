@@ -19,11 +19,11 @@ export const usePizzaStore = defineStore("pizza", {
     },
     dough: (state) => {
       const data = useDataStore();
-      return data.doughs.find((i) => i.id === state.sauceId) ?? data.doughs[0];
+      return data.doughs.find((i) => i.id === state.doughId) ?? data.doughs[0];
     },
     size: (state) => {
       const data = useDataStore();
-      return data.sizes.find((i) => i.id === state.sauceId) ?? data.sizes[0];
+      return data.sizes.find((i) => i.id === state.sizeId) ?? data.sizes[0];
     },
     ingredientsExtended: (state) => {
       const data = useDataStore();
@@ -109,6 +109,15 @@ export const usePizzaStore = defineStore("pizza", {
       this.doughId = pizza.doughId;
       this.sizeId = pizza.sizeId;
       this.ingredients = pizza.ingredients;
+    },
+    resetPizza() {
+      const dataStore = useDataStore();
+
+      this.setName("");
+      this.setDough(dataStore.doughs[0].id);
+      this.setSize(dataStore.sizes[0].id);
+      this.setSauce(dataStore.sauces[0].id);
+      this.setIngredients([]);
     },
   },
 });

@@ -4,8 +4,8 @@
       <div class="content__wrapper">
         <h1 class="title title--big">Конструктор пиццы</h1>
 
-        <dough-selection v-model="pizzaState.dough" :dough-items="doughItems" />
-        <size-selection v-model="pizzaState.size" :size-items="sizeItems" />
+        <dough-selection v-model="doughId" :dough-items="dataStore.doughs" />
+        <size-selection v-model="sizeId" :size-items="dataStore.sizes" />
 
         <div class="content__ingredients">
           <div class="sheet">
@@ -15,22 +15,22 @@
 
             <div class="sheet__content ingredients">
               <sauce-selection
-                v-model="pizzaState.sauce"
-                :sauce-items="sauceItems"
+                v-model="sauceId"
+                :sauce-items="dataStore.sauces"
               />
               <ingredients-selection
-                :values="pizzaState.ingredients"
-                :ingredient-items="ingredientItems"
-                @update="update"
+                :values="pizzaStore.ingredientQuantities"
+                :ingredient-items="dataStore.ingredients"
+                @update="pizzaStore.setIngredientQuantity"
               />
             </div>
           </div>
         </div>
-
         <PizzaView
-          :pizza-state="pizzaState"
-          :price="commonPrice"
-          @drop="drop"
+          :dough="pizzaStore.dough.value"
+          :sauce="pizzaStore.sauce.value"
+          :ingredients="pizzaStore.ingredientsExtended"
+          @drop="pizzaStore.incrementIngredientQuantity"
         />
       </div>
     </form>
@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { reactive, computed } from "vue";
+import { computed, onMounted } from "vue";
 import {
   DoughSelection,
   SauceSelection,
@@ -46,64 +46,44 @@ import {
   IngredientsSelection,
   PizzaView,
 } from "@/modules/constructor";
+//
+import { useDataStore } from "@/stores/data";
+import { usePizzaStore } from "@/stores/pizza";
 
-import {
-  normalizeDough,
-  normalizeIngredients,
-  normalizeSauces,
-  normalizeSize,
-} from "@/common/helpers/normalize";
+const dataStore = useDataStore();
+const pizzaStore = usePizzaStore();
 
-import doughJSON from "@/mocks/dough.json";
-import ingredientsJSON from "@/mocks/ingredients.json";
-import saucesJSON from "@/mocks/sauces.json";
-import sizesJSON from "@/mocks/sizes.json";
-import { MAX_INGREDIENT_COUNT } from "@/common/constants";
-
-const doughItems = doughJSON.map(normalizeDough);
-const ingredientItems = ingredientsJSON.map(normalizeIngredients);
-const sauceItems = saucesJSON.map(normalizeSauces);
-const sizeItems = sizesJSON.map(normalizeSize);
-
-const getIngredientValuesInitial = (items) => {
-  return items.reduce((prevValue, value) => {
-    return {
-      ...prevValue,
-      [value.value]: {
-        count: 0,
-        price: value.price,
-        commonPrice: 0,
-      },
-    };
-  }, {});
-};
-
-const drop = (ingredientType) => {
-  if (pizzaState.ingredients[ingredientType].count < MAX_INGREDIENT_COUNT) {
-    pizzaState.ingredients[ingredientType].count += 1;
-    pizzaState.ingredients[ingredientType].commonPrice =
-      pizzaState.ingredients[ingredientType].price *
-      pizzaState.ingredients[ingredientType].count;
-  }
-};
-
-const pizzaState = reactive({
-  dough: doughItems[0].value,
-  size: sizeItems[0].value,
-  sauce: sauceItems[0].value,
-  ingredients: getIngredientValuesInitial(ingredientItems),
+const doughId = computed({
+  get() {
+    return pizzaStore.doughId;
+  },
+  set(value) {
+    pizzaStore.setDough(value);
+  },
 });
 
-const update = (ingredientType, count) => {
-  pizzaState.ingredients[ingredientType].count = count;
-  pizzaState.ingredients[ingredientType].commonPrice =
-    pizzaState.ingredients[ingredientType].price * count;
-};
+const sizeId = computed({
+  get() {
+    return pizzaStore.sizeId;
+  },
+  set(value) {
+    pizzaStore.setSize(value);
+  },
+});
 
-const commonPrice = computed(() => {
-  return Object.values(pizzaState.ingredients).reduce((resultValue, value) => {
-    return (resultValue += value.commonPrice);
-  }, 0);
+const sauceId = computed({
+  get() {
+    return pizzaStore.sauceId;
+  },
+  set(value) {
+    pizzaStore.setSauce(value);
+  },
+});
+
+onMounted(() => {
+  if (pizzaStore.index === null) {
+    pizzaStore.resetPizza();
+  }
 });
 </script>
 

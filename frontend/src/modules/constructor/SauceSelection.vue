@@ -9,8 +9,8 @@
     >
       <input
         v-model="sauceComputed"
-        :value="sauceItem.value"
-        :checked="sauceComputed === sauceItem.value"
+        :value="sauceItem.id"
+        :checked="sauceComputed === sauceItem.id"
         type="radio"
         name="sauce"
       />
@@ -27,7 +27,7 @@ const props = defineProps({
     required: true,
   },
   modelValue: {
-    type: String,
+    type: Number,
     required: true,
   },
 });

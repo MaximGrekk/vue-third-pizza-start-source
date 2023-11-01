@@ -16,10 +16,8 @@
         <AppCounter
           :ingredient-item="ingredientItem"
           :max-value="MAX_INGREDIENT_COUNT"
-          :value="getValue(ingredientItem.value)"
-          @decrement="decrementValue"
-          @increment="incrementValue"
-          @input="inputValue"
+          :value="values[ingredientItem.id]"
+          @input="inputValue(ingredientItem.id, $event)"
         />
       </li>
     </ul>
@@ -27,11 +25,10 @@
 </template>
 
 <script setup>
-import { toRef } from "vue";
 import { AppDrag, AppCounter } from "@/common/components";
 import { MAX_INGREDIENT_COUNT } from "@/common/constants";
 
-const props = defineProps({
+defineProps({
   values: {
     type: Object,
     default: () => ({}),
@@ -42,22 +39,9 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["update"]);
-const values = toRef(props, "values");
-
-const getValue = (ingredient) => {
-  return values.value[ingredient].count ?? 0;
-};
 
 const setValue = (ingredient, count) => {
   emit("update", ingredient, Number(count));
-};
-
-const decrementValue = (ingredient) => {
-  setValue(ingredient, getValue(ingredient) - 1);
-};
-
-const incrementValue = (ingredient) => {
-  setValue(ingredient, getValue(ingredient) + 1);
 };
 
 const inputValue = (ingredient, count) => {

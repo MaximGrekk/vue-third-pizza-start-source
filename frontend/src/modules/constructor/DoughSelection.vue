@@ -16,8 +16,8 @@
         >
           <input
             v-model="doughComputed"
-            :value="doughType.value"
-            :checked="doughComputed === doughType.value"
+            :value="doughType.id"
+            :checked="doughComputed === doughType.id"
             type="radio"
             name="dough"
             class="visually-hidden"
@@ -39,7 +39,7 @@ const props = defineProps({
     required: true,
   },
   modelValue: {
-    type: String,
+    type: Number,
     required: true,
   },
 });

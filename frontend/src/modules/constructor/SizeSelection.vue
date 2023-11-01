@@ -12,8 +12,8 @@
         >
           <input
             v-model="sizeComputed"
-            :value="sizeItem.value"
-            :checked="sizeComputed === sizeItem.value"
+            :value="sizeItem.id"
+            :checked="sizeComputed === sizeItem.id"
             type="radio"
             name="diameter"
             class="visually-hidden"
@@ -33,7 +33,7 @@ const props = defineProps({
     required: true,
   },
   modelValue: {
-    type: String,
+    type: Number,
     required: true,
   },
 });
