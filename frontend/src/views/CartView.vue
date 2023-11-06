@@ -21,7 +21,7 @@
           >
             <div class="product cart-list__product">
               <img
-                :src="getImage('product.svg')"
+                :src="getPublicImage('product.svg')"
                 class="product__img"
                 width="56"
                 height="56"
@@ -72,7 +72,7 @@
             >
               <p class="additional-list__description">
                 <img
-                  :src="getImage(`${misc.image}.svg`)"
+                  :src="getPublicImage(`${misc.image}`)"
                   width="39"
                   height="60"
                   :alt="misc.name"
@@ -177,7 +177,7 @@
 <script setup>
 import AppCounter from "@/common/components/AppCounter.vue";
 import { computed, ref } from "vue";
-import { getImage } from "../common/helpers/common.js";
+import { getPublicImage } from "../common/helpers/public-image.js";
 import { useCartStore } from "@/stores/cart";
 import { usePizzaStore } from "@/stores/pizza";
 import { useProfileStore } from "@/stores/profile";

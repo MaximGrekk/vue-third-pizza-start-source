@@ -102,7 +102,7 @@ const doughComputed = computed({
   &--light {
     b {
       &::before {
-        background-image: url("@/assets/img/dough-light.svg");
+        background-image: url("/api/public/img/dough-light.svg");
       }
     }
   }
@@ -110,7 +110,7 @@ const doughComputed = computed({
   &--large {
     b {
       &::before {
-        background-image: url("@/assets/img/dough-large.svg");
+        background-image: url("/api/public/img/dough-large.svg");
       }
     }
   }

@@ -1,3 +1,5 @@
+import { isLoggedIn } from "@/middlewares/isLoggedIn";
+
 export default [
   {
     path: "/",
@@ -35,6 +37,7 @@ export default [
     component: () => import("@/views/UserView.vue"),
     meta: {
       layout: "AppLayoutMain",
+      middelwares: [isLoggedIn],
     },
     children: [
       {

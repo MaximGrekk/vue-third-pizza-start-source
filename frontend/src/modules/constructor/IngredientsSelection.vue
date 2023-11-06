@@ -122,63 +122,63 @@ const inputValue = (ingredient, count) => {
   }
 
   &--tomatoes::before {
-    background-image: url("../../assets/img/filling/tomatoes.svg");
+    background-image: url("/api/public/img/filling/tomatoes.svg");
   }
 
   &--ananas::before {
-    background-image: url("../../assets/img/filling/ananas.svg");
+    background-image: url("/api/public/img/filling/ananas.svg");
   }
 
   &--bacon::before {
-    background-image: url("../../assets/img/filling/bacon.svg");
+    background-image: url("/api/public/img/filling/bacon.svg");
   }
 
   &--blue_cheese::before {
-    background-image: url("../../assets/img/filling/blue_cheese.svg");
+    background-image: url("/api/public/img/filling/blue_cheese.svg");
   }
 
   &--cheddar::before {
-    background-image: url("../../assets/img/filling/cheddar.svg");
+    background-image: url("/api/public/img/filling/cheddar.svg");
   }
 
   &--chile::before {
-    background-image: url("../../assets/img/filling/chile.svg");
+    background-image: url("/api/public/img/filling/chile.svg");
   }
 
   &--ham::before {
-    background-image: url("../../assets/img/filling/ham.svg");
+    background-image: url("/api/public/img/filling/ham.svg");
   }
 
   &--jalapeno::before {
-    background-image: url("../../assets/img/filling/jalapeno.svg");
+    background-image: url("/api/public/img/filling/jalapeno.svg");
   }
 
   &--mozzarella::before {
-    background-image: url("../../assets/img/filling/mozzarella.svg");
+    background-image: url("/api/public/img/filling/mozzarella.svg");
   }
 
   &--mushrooms::before {
-    background-image: url("../../assets/img/filling/mushrooms.svg");
+    background-image: url("/api/public/img/filling/mushrooms.svg");
   }
 
   &--olives::before {
-    background-image: url("../../assets/img/filling/olives.svg");
+    background-image: url("/api/public/img/filling/olives.svg");
   }
 
   &--onion::before {
-    background-image: url("../../assets/img/filling/onion.svg");
+    background-image: url("/api/public/img/filling/onion.svg");
   }
 
   &--parmesan::before {
-    background-image: url("../../assets/img/filling/parmesan.svg");
+    background-image: url("/api/public/img/filling/parmesan.svg");
   }
 
   &--salami::before {
-    background-image: url("../../assets/img/filling/salami.svg");
+    background-image: url("/api/public/img/filling/salami.svg");
   }
 
   &--salmon::before {
-    background-image: url("../../assets/img/filling/salmon.svg");
+    background-image: url("/api/public/img/filling/salmon.svg");
   }
 }
 </style>
